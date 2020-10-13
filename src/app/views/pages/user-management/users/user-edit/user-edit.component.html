@@ -1,0 +1,342 @@
+<div>
+    <form [formGroup]="userForm">
+        <div class="row custom-mt-4rem">
+            <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
+                <div class="d-flex flex-column custom-mt-sm-2rem">
+                    <h3 class="custom-mb-2rem mx-auto d-block custom-text-title">Tipo de Usuario</h3>
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="custom-profile-image-container mb-4">
+                                <img src="/assets/media/users/default.jpg" />
+                                <div class="d-flex align-items-end image-form">
+                                    <mat-form-field class="image-form-field">
+                                        <mat-label>{{"Tipo De Usuarios" | translate }}*</mat-label>
+                                        <mat-select formControlName="userType" matInput>
+                                            <mat-option value="1">
+                                                {{"Mover" | translate }}
+                                            </mat-option>
+                                            <mat-option value="2">
+                                                {{"Rider" | translate }}
+                                            </mat-option>
+
+                                        </mat-select>
+                                        <mat-hint align="start">
+                                            <strong>Account Type</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{'Nombre(s)' | translate }}*</mat-label>
+                                        <input matInput formControlName="userName" />
+                                        <mat-error>Campo
+                                            <strong>requerido</strong>
+                                        </mat-error>
+                                        <mat-hint align="start">Favor de ingresar
+                                            <strong>Email</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Apellidos Paterno" | translate }}*</mat-label>
+                                        <input formControlName="userSurname" matInput />
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Apellidos Materno" | translate }}*</mat-label>
+                                        <input formControlName="userLastname" matInput/>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{'Fecha de Nacimiento' | translate }}</mat-label>
+                                        <input formControlName="userBirthday" [matDatepicker]="picker" matInput>
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{'Numero Celular' | translate }}*</mat-label>
+                                        <input formControlName="userMobile" matInput />
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{'Correo electrónico' | translate }}*</mat-label>
+                                        <input formControlName="email" matInput/>
+                                        <mat-error>Email is
+                                            <strong>required</strong>
+                                        </mat-error>
+                                        <mat-hint align="start">Please enter
+                                            <strong>Email</strong>
+                                        </mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{'Vencimiento Licencia' | translate }}</mat-label>
+                                        <input formControlName="expirationDate" [matDatepicker]="picker2" matInput>
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
+                <div class="d-flex flex-column custom-mt-sm-2rem">
+                    <h3 class="custom-mb-2rem mx-auto d-block custom-text-title">{{"Base" | translate }}</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column">
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{'Base' | translate }}</mat-label>
+                                        <input matInput value="Puerto interior" formControlName="stationId" matInput/>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-column custom-mt-2rem">
+                    <h3 class="custom-mb-2rem mx-auto d-block custom-text-title">{{"Dirección" | translate }}</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column">
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{'Calle' | translate }}</mat-label>
+                                        <input formControlName="street" matInput />
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Nº Exterior" | translate }}</mat-label>
+                                        <input formControlName="exteriorNumber" matInput/>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Nº Interior" | translate }}</mat-label>
+                                        <input formControlName="interiorNumber" matInput/>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Código Postal" | translate }}</mat-label>
+                                        <input formControlName="zipCode" matInput/>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Colonia" | translate }}</mat-label>
+                                        <input formControlName="neighborhood" matInput />
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Estado" | translate }}</mat-label>
+                                        <input formControlName="state" matInput/>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Ciudad/Municipio" | translate }}</mat-label>
+                                        <input formControlName="city" matInput/>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="custom-mt-sm-2rem col-lg-4 col-xl-4 col-md-4 col-sm-12">
+                <div class="d-flex flex-column">
+                    <h3 class="custom-mb-2rem mx-auto d-block custom-text-title">{{"Estatus" | translate }}</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <label>{{'Estatus' | translate }}</label>
+                                <mat-slide-toggle></mat-slide-toggle>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex flex-column custom-mt-2rem">
+                    <h3 class="custom-mb-3rem mx-auto d-block custom-text-title">{{"Colaborador" | translate }}</h3>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column">
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Area" | translate }}*</mat-label>
+                                        <mat-select formControlName="userArea" matInput>
+                                            <mat-option value="1">
+                                                Mercadotecnia
+                                            </mat-option>
+                                            <mat-option value="2">
+                                                Operaciones
+                                            </mat-option>
+                                            <mat-option value="3">
+                                                TI
+                                            </mat-option>
+                                            <mat-option value="4">
+                                                RH
+                                            </mat-option>
+                                            <mat-option value="5">
+                                                Comercial
+                                            </mat-option>
+                                            <mat-option value="6">
+                                                Contabilidad
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Puesto" | translate }}*</mat-label>
+                                        <mat-select formControlName="userRole" matInput>
+                                            <mat-option value="1">
+                                                Jefatura
+                                            </mat-option>
+                                            <mat-option value="2">
+                                                Coordinador
+                                            </mat-option>
+                                            <mat-option value="3">
+                                                Gerencia
+                                            </mat-option>
+                                            <mat-option value="4">
+                                                Dirección
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Tipo de Sangre" | translate }}</mat-label>
+                                        <input formControlName="bloodtype" matInput />
+                                    </mat-form-field>
+                                </div>
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Padecimiento y/o Alergias" | translate }}</mat-label>
+                                        <textarea formControlName="alergiesCondition" rows="10" matInput></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row custom-mt-2rem">
+            <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
+                <h3 class="custom-mb-2rem mx-auto d-block custom-text-title">
+                    {{"CONTACTO DE EMERGENCIA" | translate }}
+                </h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12">
+                <div class="d-flex flex-column">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column">
+                                <div>
+                                    <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{"Nombre(s)" | translate }}*</mat-label>
+                                        <input formControlName="contactName" matInput/>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12">
+                <div class=" card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column">
+                            <div>
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <mat-label>{{"Apellido Patorno" | translate }}</mat-label>
+                                    <input formControlName="contactSurname" matInput/>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12">
+                <div class=" card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column">
+                            <div>
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <mat-label>{{"Apellido Materno" | translate }}</mat-label>
+                                    <input formControlName="contactLastname" matInput/>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12">
+                <div class=" card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column">
+                            <div>
+                                <mat-form-field class="mat-form-field-fluid">
+                                    <mat-label>{{"Número Celular" | translate }}</mat-label>
+                                    <input formControlName="contactPhone" matInput/>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex custom-mt-2rem justify-content-end">
+            <button *ngIf="!permits" (click)="onSumbit(false)" class="btn btn-primary custom-mr-2rem">{{"Guardar" | translate }}</button>&nbsp;&nbsp;
+            <button *ngIf="permits" routerLink="/page3" class="btn btn-primary custom-mr-2rem">{{"Permisos" | translate }}</button>&nbsp;&nbsp;
+            <button class="btn btn-outline-primary">{{"Cancelar" | translate}}</button>
+        </div>
+    </form>
+
+</div>

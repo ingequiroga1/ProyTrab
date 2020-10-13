@@ -1,0 +1,10 @@
+:host {
+     ::ng-deep {
+        .mat-form-field-underline {
+            display: none;
+        }
+        .mat-form-field-label-wrapper {
+            border: none;
+        }
+    }
+}

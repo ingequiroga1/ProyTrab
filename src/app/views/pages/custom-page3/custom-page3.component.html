@@ -1,0 +1,114 @@
+<section class=" custom-mt-4rem d-flex flex-wrap custom-height-85vh">
+    <div class="row col-12">
+        <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
+            <div class="d-flex flex-column custom-mt-sm-2rem">
+                <h3 class="custom-mb-2rem mx-auto d-block custom-text-title">
+                    {{"Gama de vehiculo" | translate }}
+                </h3>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column">
+                            <mat-radio-group [ngModel]="'start'">
+                                <div class="d-flex flex-wrap justify-content-between">
+                                    <mat-checkbox value="Basico">
+                                        <span style="white-space: break-spaces;">
+                                            {{"Basico" | translate }}
+                                        </span>
+                                    </mat-checkbox>
+
+                                    <mat-checkbox value="Medio">
+                                        <span style="white-space: break-spaces;">
+                                            {{"Medio" | translate }}
+                                        </span>
+                                    </mat-checkbox>
+
+                                    <mat-checkbox value="Premium">
+                                        <span style="white-space: break-spaces;">
+                                            {{"Premium" | translate }}
+                                        </span>
+                                    </mat-checkbox>
+
+
+                                </div>
+                            </mat-radio-group>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
+            <div class="d-flex flex-column  custom-mt-sm-2rem">
+                <h3 class="custom-mb-2rem mx-auto d-block custom-text-title">
+                    {{"Permisos" | translate }}
+                </h3>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap flex-column">
+                            <mat-checkbox class="mb-4" value="1">
+                                <span style="white-space: break-spaces;">
+                                    {{"Compartir Saldo Movenco con User" | translate }}
+                                </span>
+                            </mat-checkbox>
+                            <mat-checkbox value="2">
+                                <span style="white-space: break-spaces;">
+                                    {{"Agregar User" | translate }}
+                                </span>
+                            </mat-checkbox>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-4 col-xl-4 col-md-4 col-sm-12">
+
+            <div class="d-flex flex-column custom-mt-sm-2rem">
+                <h3 class="custom-mb-2rem mx-auto d-block custom-text-title">
+                    {{"Base Mover" | translate }}
+                </h3>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap flex-column">
+                            <mat-checkbox class="mb-4" value="1">
+                                <span style="white-space: break-spaces;">
+                                    {{"HDI Norte" | translate }}
+                                </span>
+                            </mat-checkbox>
+
+                            <mat-checkbox class="mb-4" value="2">
+                                <span style="white-space: break-spaces;">
+                                    {{"HDI Campestre" | translate }}
+                                    </span>
+                            </mat-checkbox>
+
+                            <mat-checkbox class="mb-4" value="3">
+                                <span style="white-space: break-spaces;">
+                                    {{"HDI Norte" | translate }}
+                                </span>
+                            </mat-checkbox>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+    <div class="ml-auto align-self-end d-flex justify-self-end custom-mt-2rem justify-content-end">
+        <button class="btn btn-primary">{{"Guardar" | translate }}</button>&nbsp;&nbsp;
+        <button class="btn btn-outline-primary">{{"Cancelar" | translate }}</button>
+    </div>
+</section>
