@@ -133,32 +133,78 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	createForm() {
 		this.userForm = this.userFB.group({
       userType: [this.user.userTypeId],
-      stationId:[this.user.statusId],
+      stationId:[this.user.stationId],
       statusId:[this.user.statusId],
-      userName:[this.user.username, Validators.compose([Validators.pattern('^[a-zA-Z ]*$'), Validators.required])],
-      userSurname:[this.user.userSurname, Validators.compose([Validators.pattern('^[a-zA-Z ]*$'), Validators.required])],
-      userLastname: [this.user.userLastname, Validators.compose([Validators.pattern('^[a-zA-Z ]*$'), Validators.required])],
-      userBirthday:[this.user.userBirthday],
-	  userMobile:[this.user.userMobile,Validators.compose([Validators.pattern('^[0-9]*$'),
-	  Validators.minLength(10),Validators.maxLength(10), Validators.required])],
-      email:[this.user.email, Validators.compose([Validators.required, Validators.email])],
+      userName:[this.user.username, Validators.compose([
+		  Validators.pattern('^[a-zA-Z ]*$'),
+		  Validators.required,
+		  Validators.maxLength(50)
+		])],
+      userSurname:[this.user.userSurname, Validators.compose([
+		  Validators.pattern('^[a-zA-Z ]*$'),
+		  Validators.required,
+		  Validators.maxLength(50)
+		])],
+      userLastname: [this.user.userLastname, Validators.compose([
+		  Validators.pattern('^[a-zA-Z ]*$'), 
+		  Validators.required,
+		  Validators.maxLength(50)
+		])],
+	  userRole: [this.user.userPosition,Validators.required],
+	  userArea: [this.user.userArea,Validators.required],
+	  userBirthday:[this.user.userBirthday],
+	  userMobile:[this.user.userMobile,Validators.compose([
+		  Validators.pattern('^[0-9]*$'),
+			Validators.minLength(10),
+			Validators.maxLength(10),
+			Validators.required
+		])],
+      email:[this.user.email, Validators.compose([
+		  Validators.required, 
+		  Validators.email,
+		  Validators.maxLength(50)
+		])],
+	  street:[this.user.street, Validators.compose([
+		Validators.maxLength(50)
+	  ])],
+	  exteriorNumber:[this.user.exteriorNumber,Validators.compose([
+		Validators.maxLength(20)
+	  ])],
+      interiorNumber:[this.user.interiorNumber,Validators.compose([
+		Validators.maxLength(20)
+	  ])],
+	  zipCode: [this.user.zipCode,Validators.compose([
+		Validators.pattern('^[0-9]*$'),
+		Validators.maxLength(5)
+	  ])],
       expirationDate: [this.user.expirationDate],
-      street:[this.user.street],
-      exteriorNumber:[this.user.exteriorNumber],
-      interiorNumber:[this.user.interiorNumber],
-      zipCode: [this.user.zipCode],
       neighborhood:[this.user.street],
       state:[this.user.state],
       city:[this.user.city],
-	  userArea: [this.user.userArea],
-	  userRole: [this.user.userPosition],
       bloodtype:[this.user.statusId],
-      alergiesCondition:[this.user.alergiesCondition],
-      contactName: [this.user.contactName],
-      contactSurname:[this.user.contactSurname],
-      contactLastname:[this.user.contactLastname],
-      contactPhone:[this.user.contactPhone,Validators.compose([Validators.pattern('^[0-9]*$'),
-	  Validators.minLength(10), Validators.maxLength(10), Validators.required])],
+	  alergiesCondition:[this.user.alergiesCondition],
+      contactName: [this.user.contactName,Validators.compose([
+		Validators.pattern('^[a-zA-Z ]*$'),
+		Validators.required,
+		Validators.maxLength(50)
+	  ])],
+      contactSurname:[this.user.contactSurname, Validators.compose([
+		Validators.pattern('^[a-zA-Z ]*$'),
+		Validators.required,
+		Validators.maxLength(50)
+	  ])],
+      contactLastname:[this.user.contactLastname, Validators.compose([
+		Validators.pattern('^[a-zA-Z ]*$'),
+		Validators.required,
+		Validators.maxLength(50)
+	  ])],
+      contactPhone:[this.user.contactPhone,Validators.compose([
+		  Validators.pattern('^[0-9]*$'),
+			Validators.minLength(10),
+			Validators.maxLength(10),
+			Validators.required]
+			)
+		],
 		});
   }
 
