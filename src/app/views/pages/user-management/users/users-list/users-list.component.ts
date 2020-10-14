@@ -47,6 +47,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
 	displayedColumns = ['select', 'id', 'username', 'email', 'fullname', '_roles', 'actions'];
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 	@ViewChild('sort1', {static: true}) sort: MatSort;
+	
 	// Filter fields
 	@ViewChild('searchInput', {static: true}) searchInput: ElementRef;
 	lastQuery: QueryParamsModel;
@@ -82,6 +83,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
 	 * On init
 	 */
 	ngOnInit() {
+		this.paginator._intl.itemsPerPageLabel='Elementos por página';
 		// load roles list
 		const rolesSubscription = this.store.pipe(select(selectAllRoles)).subscribe(res => this.allRoles = res);
 		this.subscriptions.push(rolesSubscription);
