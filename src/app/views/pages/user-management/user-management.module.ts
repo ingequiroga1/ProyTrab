@@ -42,7 +42,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
@@ -56,6 +56,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { UserDetailComponent } from './users/user-detail/user-detail.component';
+
+//Pipes
+import { DatePipe } from '@angular/common'
+
+// upload image
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 
 const routes: Routes = [
@@ -137,7 +143,8 @@ const routes: Routes = [
 		MatExpansionModule,
 		MatTabsModule,
 		MatTooltipModule,
-		MatDialogModule
+		MatDialogModule,
+		MaterialFileInputModule
 	],
 	providers: [
 		InterceptService,
@@ -155,9 +162,11 @@ const routes: Routes = [
 				width: '900px'
 			}
 		},
+		{provide: MAT_DATE_LOCALE, useValue: 'es-MX'},
 		HttpUtilsService,
 		TypesUtilsService,
-		LayoutUtilsService
+		LayoutUtilsService,
+		DatePipe
 	],
 	entryComponents: [
 		ActionNotificationComponent,

@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 // State
 import { AppState } from '../../../../../core/reducers';
-import { currentUser, Logout, User } from '../../../../../core/auth';
+import { currentUser,Logout} from '../../../../../core/auth';
+import { CustomerModel } from '../../../../../core/e-commerce/_models/customer.model';
 
 @Component({
   selector: 'kt-user-profile4',
@@ -14,7 +15,8 @@ import { currentUser, Logout, User } from '../../../../../core/auth';
 })
 export class UserProfile4Component implements OnInit {
   // Public properties
-  user$: Observable<User>;
+  customer$: Observable<CustomerModel>;
+  // bases$: Observable<Base[]>;
 
   @Input() avatar = true;
   @Input() greeting = true;
@@ -37,7 +39,9 @@ export class UserProfile4Component implements OnInit {
    * On init
    */
   ngOnInit(): void {
-    this.user$ = this.store.pipe(select(currentUser));
+    debugger;
+    this.customer$ = this.store.pipe(select(currentUser));
+    // this.bases$ = this.store.pipe(select(currentUserBases));
   }
 
   /**

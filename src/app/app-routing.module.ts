@@ -52,17 +52,10 @@ const routes: Routes = [
       //     ),
       // },
       {
-        path: "page2",
-        loadChildren: () =>
-          import('./views/pages/user-management/user-management.module').then(
-            (m) => m.UserManagementModule
-          ),
-      },
-      {
         path: 'page2/:id',
          loadChildren: () =>
-           import('./views/pages/user-management/user-management.module').then(
-             (m) => m.UserManagementModule
+           import("./views/pages/custom-page2/custom-page2.module").then(
+             (m) => m.CustomPage2Module
            ),
       },
       {
@@ -119,6 +112,20 @@ const routes: Routes = [
         loadChildren: () =>
           import("./views/theme/content/builder/builder.module").then(
             (m) => m.BuilderModule
+          ),
+      },
+      {
+        path: "builder",
+        loadChildren: () =>
+          import("./views/theme/content/builder/builder.module").then(
+            (m) => m.BuilderModule
+          ),
+      },
+      {
+        path: "point-management",
+        loadChildren: () =>
+          import('./views/pages/point-management/point-management.module').then(
+            (m) => m.PointManagementModule
           ),
       },
       { path: "", redirectTo: "dashboard", pathMatch: "full" },

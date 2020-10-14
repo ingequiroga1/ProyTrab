@@ -13,6 +13,9 @@ import { AppState } from '../../../../core/reducers';
 // Auth
 import { AuthNoticeService, AuthService, Login } from '../../../../core/auth';
 import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { LayoutUtilsService, MessageType } from '../../../../core/_base/crud/utils/layout-utils.service';
+import { CustomerChangePassword } from '../../../../core/e-commerce/_actions/customer.actions';
+import { calendarFormat } from 'moment';
 /**
  * ! Just example => Should be removed in development
  */
@@ -20,6 +23,11 @@ const DEMO_PARAMS = {
 	EMAIL: 'admin@demo.com',
 	PASSWORD: 'demo'
 };
+
+export interface DialogData {
+	passn: string;
+	confpass: string;
+  }
 
 @Component({
 	selector: 'kt-login',
@@ -32,6 +40,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 	loading = false;
 	isLoggedIn$: Observable<boolean>;
 	errors: any = [];
+
+	newpass: string;
+	confirmpass: string;
 
 	private unsubscribe: Subject<any>;
 
@@ -60,7 +71,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private fb: FormBuilder,
 		private cdr: ChangeDetectorRef,
 		private route: ActivatedRoute,
-		public dialog: MatDialog
+		public dialog: MatDialog,
+		private layoutUtilsService: LayoutUtilsService
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -81,14 +93,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	openDialog() {
-		this.dialog.open(ForgotPasswordDialog, {
-			panelClass: 'forgot-password-container',
-		  data: {
-			animal: 'panda'
-		 }
-		});
-	  }
+	// openDialog() {
+	// 	this.dialog.open(ForgotPasswordDialog, {
+	// 		panelClass: 'forgot-password-container',
+	// 	  data: {
+	// 		passn: this.newpass, confpass: this.confirmpass
+	// 	 }
+	// 	});
+	//   }
 	/**
 	 * On destroy
 	 */
@@ -98,6 +110,33 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.unsubscribe.complete();
 		this.loading = false;
 	}
+
+
+	openDialog(clientid): void {
+		const dialogRef = this.dialog.open(ForgotPasswordDialog, {
+			panelClass: 'forgot-password-container',
+		  data: {
+			passn: this.newpass, confpass: this.confirmpass
+		 }
+		});
+		dialogRef.afterClosed().subscribe(result => {
+		  if(!result){
+			const message = `Las contraseñas no coinciden.`;
+			this.layoutUtilsService.showActionNotification(message, MessageType.Update, 5000, true, false);
+		  }
+		  else{
+			debugger;
+			this.store.dispatch(new CustomerChangePassword({idcust: clientid, pass: result}));
+			const message = `Se cambio la contraseña.`;
+			this.layoutUtilsService.showActionNotification(message, MessageType.Update, 5000, true, false);
+			this.ResetForm();
+		  }
+		});
+	  }
+
+	  ResetForm(){
+		  this.loginForm.reset();
+	  }
 
 	/**
 	 * Form initalization
@@ -154,9 +193,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 				tap(user => {
 					if (user) {
 						debugger;
-						//this.store.dispatch(new Login({authToken: user.accessToken}));
-						this.store.dispatch(new Login({authToken: user.clientId.toString()}));
-						this.router.navigateByUrl(this.returnUrl); // Main page
+						if(!user.changePassword){
+							this.openDialog(user.clientId);
+						}
+						else{
+							// this.store.dispatch(new Login({authToken: user.accessToken}));
+							this.store.dispatch(new Login({authToken: user.clientId.toString()}));
+							this.router.navigateByUrl(this.returnUrl); // Main page
+						}
 					} else {
 						this.authNoticeService.setNotice(this.translate.instant('AUTH.VALIDATION.INVALID_LOGIN'), 'danger');
 					}
@@ -194,33 +238,83 @@ export class LoginComponent implements OnInit, OnDestroy {
 	<div class="position-relative h-100">
 	<div class="custom-lock-open-icon-dialog" >
 		<mat-icon>lock_open</mat-icon>
-	</div>
-	<div class="d-flex flex-column w-75 mx-auto p-4 h-100 justify-content-center">
-	
-	<h3 class="text-center mb-2 custom-mt-3rem" >Cambiar Contraseña</h3>
-	<div class="d-flex flex-column  justify-content-center align-items-center" >
-			<div class="mb-4 w-100" >
-			<mat-form-field class="mat-form-field-fluid">
-				<mat-label>Nueva Contraseña</mat-label>
-				<input matInput class="p-2"/>
-			</mat-form-field>
-			</div>
-
-			<div class="custom-mb-2rem w-100" >
-				<mat-form-field class="mat-form-field-fluid">
-					<mat-label>Repetir Contraseña</mat-label>
-					<input matInput  class="p-2"/>
-				</mat-form-field>
-			</div>
-
-			<div class="w-75" >
-				<button class="btn btn-primary btn-block p-4 ">Inciar Sesión</button>
-			</div>
-		</div>
-	</div>
-	</div>
+    </div>
+    <form [formGroup]="changPassForm">
+        <div class="d-flex flex-column w-75 mx-auto p-4 h-100 justify-content-center">
+            <h3 class="text-center mb-2 custom-mt-3rem" >Cambiar Contraseña</h3>
+            <div class="d-flex flex-column  justify-content-center align-items-center" >
+                    <div class="mb-4 w-100" >
+                    <mat-form-field class="mat-form-field-fluid">
+                        <mat-label>Nueva Contraseña</mat-label>
+						<input type="password" autocomplete="off" matInput [(ngModel)]="data.passn" formControlName="newpass"  class="p-2"/>
+						<mat-error *ngIf="passHasError('email', 'required')">
+                        <strong>{{ "AUTH.VALIDATION.REQUIRED_FIELD" | translate }}</strong>
+	                    </mat-error>
+	                    <mat-error *ngIf="passHasError('email', 'email')">
+	                        <strong>{{ "AUTH.VALIDATION.INVALID_FIELD" | translate }}</strong>
+	                    </mat-error>
+	                    <mat-error *ngIf="passHasError('email', 'minlength')">
+	                        <strong>{{ "AUTH.VALIDATION.MIN_LENGTH_FIELD" | translate }} 3</strong>
+	                    </mat-error>
+	                    <mat-error *ngIf="passHasError('email', 'maxlength')">
+	                        <strong>{{ "AUTH.VALIDATION.MAX_LENGTH_FIELD" | translate }} 320</strong>
+	                    </mat-error>
+	                    </mat-form-field>
+                    </div>
+    
+                    <div class="custom-mb-2rem w-100" >
+                        <mat-form-field class="mat-form-field-fluid">
+                            <mat-label>Repetir Contraseña</mat-label>
+							<input type="password" autocomplete="off" matInput [(ngModel)]="data.confpass" formControlName="confirmpass"  class="p-2"/>
+							<mat-error *ngIf="passHasError('email', 'required')">
+	                        <strong>{{ "AUTH.VALIDATION.REQUIRED_FIELD" | translate }}</strong>
+		                    </mat-error>
+		                    <mat-error *ngIf="passHasError('email', 'email')">
+		                        <strong>{{ "AUTH.VALIDATION.INVALID_FIELD" | translate }}</strong>
+		                    </mat-error>
+		                    <mat-error *ngIf="passHasError('email', 'minlength')">
+		                        <strong>{{ "AUTH.VALIDATION.MIN_LENGTH_FIELD" | translate }} 3</strong>
+		                    </mat-error>
+		                    <mat-error *ngIf="passHasError('email', 'maxlength')">
+		                        <strong>{{ "AUTH.VALIDATION.MAX_LENGTH_FIELD" | translate }} 320</strong>
+		                    </mat-error>
+                        </mat-form-field>
+                    </div>
+    
+                    <div  mat-dialog-actions class="w-75" >
+                        <button mat-button [mat-dialog-close]="data.passn===data.confpass ? data.passn : undefined" class="btn btn-primary btn-block p-4 ">Inciar Sesión</button>
+                    </div>
+             </div>
+        </div>
+    </form>
+</div>
 	  `,
   })
   export class ForgotPasswordDialog {
-	constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+	changPassForm: FormGroup;
+	constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData,private fb: FormBuilder) {}
+	ngOnInit(): void {
+		this.changPassForm = this.fb.group({
+			newpass: ['', Validators.compose([
+				Validators.required,
+				Validators.minLength(3)// https://stackoverflow.com/questions/386294/what-is-the-maximum-length-of-a-valid-email-address
+			])
+			],
+			confirmpass: ['', Validators.compose([
+				Validators.required,
+				Validators.minLength(3)
+			])
+			]
+		});
+	}
+
+	passHasError(controlName: string, validationType: string): boolean {
+		const control = this.changPassForm.controls[controlName];
+		if (!control) {
+			return false;
+		}
+
+		const result = control.hasError(validationType) && (control.dirty || control.touched);
+		return result;
+	}
   }

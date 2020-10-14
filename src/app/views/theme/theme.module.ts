@@ -42,6 +42,9 @@ import { PermissionEffects, permissionsReducer, RoleEffects, rolesReducer } from
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
+
+// NgBootstrap
+import { NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     BaseComponent,
@@ -113,7 +116,8 @@ import {MatSelectModule} from '@angular/material/select';
     NgbProgressbarModule,
     NgbTooltipModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
+    NgbDropdownModule
   ]
 })
 export class ThemeModule {

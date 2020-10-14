@@ -11,6 +11,7 @@ import { HttpUtilsService, QueryParamsModel, QueryResultsModel } from '../../_ba
 // Models
 import { CustomerModel } from '../_models/customer.model';
 import { User } from '../../auth/_models/user.model'
+import { environment } from '../../../../environments/environment';
 
 const API_CUSTOMERS_URL = 'api/customers';
 
@@ -43,7 +44,7 @@ export class CustomersService {
     // This code imitates server calls
     const url = API_CUSTOMERS_URL;
     // return this.http.get<CustomerModel[]>(API_CUSTOMERS_URL).pipe(
-    return this.http.get<CustomerModel[]>('http://52.226.100.59/api/Client').pipe(
+    return this.http.get<CustomerModel[]>(environment.serverpath + 'Client').pipe(
       // return this.http.get<CustomerModel[]>('http://52.226.100.59/api/User').pipe(
       mergeMap(res => {
         const result = this.httpUtils.baseFilter(res, queryParams, ['statusId', 'name']);
@@ -56,13 +57,22 @@ export class CustomersService {
     // This code imitates server calls
     const url = API_CUSTOMERS_URL;
     // return this.http.get<CustomerModel[]>(API_CUSTOMERS_URL).pipe(
-    return this.http.get<User[]>('http://52.226.100.59/api/User').pipe(
+    return this.http.get<User[]>(environment.serverpath +'User').pipe(
       // return this.http.get<CustomerModel[]>('http://52.226.100.59/api/User').pipe(
       mergeMap(res => {
         const result = this.httpUtils.baseFilter(res, queryParams, ['statusId', 'name']);
         return of(result);
       })
     );
+  }
+
+  changePass(customerId: number, newPass: string): Observable<any>{
+    const httpHeader = this.httpUtils.getHTTPHeaders();
+    const datos = {
+      clientId: customerId,
+      password: newPass
+    }
+    return this.http.put(environment.serverpath + 'Client/pass', datos, {headers: httpHeader});
   }
 
 

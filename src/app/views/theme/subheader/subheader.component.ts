@@ -48,6 +48,7 @@ export class SubheaderComponent implements OnInit {
    * On init
    */
   ngOnInit(): void {
+    debugger;
     this.toolbarService.toolbarDataEvent.subscribe((data) => {
       this.routeData = data;
     })

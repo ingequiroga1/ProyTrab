@@ -23,7 +23,7 @@ export enum UserActionTypes {
 
 export class UserOnServerCreated implements Action {
     readonly type = UserActionTypes.UserOnServerCreated;
-    constructor(public payload: { user: User }) { }
+    constructor(public payload: { user: User, image: File }) { }
 }
 
 export class UserCreated implements Action {

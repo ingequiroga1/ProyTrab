@@ -11,6 +11,10 @@ import { AppState } from '../../../../../core/reducers';
 // Layout
 import { SubheaderService, LayoutConfigService } from '../../../../../core/_base/layout';
 import { LayoutUtilsService, MessageType } from '../../../../../core/_base/crud';
+
+//Pipes
+import { DatePipe } from '@angular/common'
+
 // Services and Models
 import {
 	User,
@@ -40,10 +44,16 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	soicialNetworksSubject = new BehaviorSubject<SocialNetworks>(new SocialNetworks());
 	userForm: FormGroup;
 	hasFormErrors = false;
-	permits = false;
+	imgpreview = '/assets/media/users/default.jpg';
+	userimage: File;
+	addpermitions = false;
+
+	isMover= true; // 08/10/2020
+
+
+
 	// Private properties
 	private subscriptions: Subscription[] = [];
-
 
 	/**
 	 * Component constructor
@@ -62,7 +72,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		           private subheaderService: SubheaderService,
 		           private layoutUtilsService: LayoutUtilsService,
 		           private store: Store<AppState>,
-		           private layoutConfigService: LayoutConfigService) { }
+				   private layoutConfigService: LayoutConfigService,
+				   private datepipe: DatePipe) { }
 
 	/**
 	 * @ Lifecycle sequences => https://angular.io/guide/lifecycle-hooks
@@ -80,11 +91,11 @@ export class UserEditComponent implements OnInit, OnDestroy {
 				this.store.pipe(select(selectUserById(id))).subscribe(res => {
 					if (res) {
 						this.user = res;
-						this.permits = true;
 						this.rolesSubject.next(this.user.roles);
 						this.addressSubject.next(this.user.address);
 						this.soicialNetworksSubject.next(this.user.socialNetworks);
 						this.oldUser = Object.assign({}, this.user);
+						this.addpermitions = true;
 						this.initUser();
 					}
 				});
@@ -133,32 +144,78 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	createForm() {
 		this.userForm = this.userFB.group({
       userType: [this.user.userTypeId],
-      stationId:[this.user.statusId],
+      stationId:[this.user.stationId],
       statusId:[this.user.statusId],
-      userName:[this.user.username, Validators.compose([Validators.pattern('^[a-zA-Z ]*$'), Validators.required])],
-      userSurname:[this.user.userSurname, Validators.compose([Validators.pattern('^[a-zA-Z ]*$'), Validators.required])],
-      userLastname: [this.user.userLastname, Validators.compose([Validators.pattern('^[a-zA-Z ]*$'), Validators.required])],
-      userBirthday:[this.user.userBirthday],
-	  userMobile:[this.user.userMobile,Validators.compose([Validators.pattern('^[0-9]*$'),
-	  Validators.minLength(10),Validators.maxLength(10), Validators.required])],
-      email:[this.user.email, Validators.compose([Validators.required, Validators.email])],
+      userName:[this.user.userName, Validators.compose([
+		  Validators.pattern('^[a-zA-Z ]*$'),
+		  Validators.required,
+		  Validators.maxLength(50)
+		])],
+      userSurname:[this.user.userSurname, Validators.compose([
+		  Validators.pattern('^[a-zA-Z ]*$'),
+		  Validators.required,
+		  Validators.maxLength(50)
+		])],
+      userLastname: [this.user.userLastname, Validators.compose([
+		  Validators.pattern('^[a-zA-Z ]*$'), 
+		  Validators.required,
+		  Validators.maxLength(50)
+		])],
+	  userRole: [this.user.userPosition,Validators.required],
+	  userArea: [this.user.userArea,Validators.required],
+	  userBirthday:[this.user.userBirthday],
+	  userMobile:[this.user.userMobile,Validators.compose([
+		  Validators.pattern('^[0-9]*$'),
+			Validators.minLength(10),
+			Validators.maxLength(10),
+			Validators.required
+		])],
+      email:[this.user.email, Validators.compose([
+		  Validators.required, 
+		  Validators.email,
+		  Validators.maxLength(50)
+		])],
+	  street:[this.user.street, Validators.compose([
+		Validators.maxLength(50)
+	  ])],
+	  exteriorNumber:[this.user.exteriorNumber,Validators.compose([
+		Validators.maxLength(20)
+	  ])],
+      interiorNumber:[this.user.interiorNumber,Validators.compose([
+		Validators.maxLength(20)
+	  ])],
+	  zipCode: [this.user.zipCode,Validators.compose([
+		Validators.pattern('^[0-9]*$'),
+		Validators.maxLength(5)
+	  ])],
       expirationDate: [this.user.expirationDate],
-      street:[this.user.street],
-      exteriorNumber:[this.user.exteriorNumber],
-      interiorNumber:[this.user.interiorNumber],
-      zipCode: [this.user.zipCode],
       neighborhood:[this.user.street],
       state:[this.user.state],
       city:[this.user.city],
-	  userArea: [this.user.userArea],
-	  userRole: [this.user.userPosition],
       bloodtype:[this.user.statusId],
-      alergiesCondition:[this.user.alergiesCondition],
-      contactName: [this.user.contactName],
-      contactSurname:[this.user.contactSurname],
-      contactLastname:[this.user.contactLastname],
-      contactPhone:[this.user.contactPhone,Validators.compose([Validators.pattern('^[0-9]*$'),
-	  Validators.minLength(10), Validators.maxLength(10), Validators.required])],
+	  alergiesCondition:[this.user.alergiesCondition],
+      contactName: [this.user.contactName,Validators.compose([
+		Validators.pattern('^[a-zA-Z ]*$'),
+		Validators.required,
+		Validators.maxLength(50)
+	  ])],
+      contactSurname:[this.user.contactSurname, Validators.compose([
+		Validators.pattern('^[a-zA-Z ]*$'),
+		Validators.required,
+		Validators.maxLength(50)
+	  ])],
+      contactLastname:[this.user.contactLastname, Validators.compose([
+		Validators.pattern('^[a-zA-Z ]*$'),
+		Validators.required,
+		Validators.maxLength(50)
+	  ])],
+      contactPhone:[this.user.contactPhone,Validators.compose([
+		  Validators.pattern('^[0-9]*$'),
+			Validators.minLength(10),
+			Validators.maxLength(10),
+			Validators.required]
+			)
+		],
 		});
   }
 
@@ -234,6 +291,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 * Returns prepared data for save
 	 */
 	prepareUser(): User {
+		debugger;
 		const controls = this.userForm.controls;
 		const _user = new User();
 		_user.clear();
@@ -241,16 +299,17 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		_user.refreshToken = this.user.refreshToken;
 		_user.pic = this.user.pic;
 		_user.userId = this.user.userId;
-		_user.userTypeId = 'Mover';
+		_user.userTypeId = controls.userType.value;
 		_user.password = 'string';
-		_user.statusId = 'Activo';
+		_user.statusId = controls.statusId ? "Activo" : "Inactivo";
 		_user.username = controls.userName.value;
 		_user.userSurname = controls.userSurname.value;
 		_user.userLastname = controls.userLastname.value;
 		_user.userPosition = controls.userRole.value;
 		_user.userArea = controls.userArea.value;
 		_user.userMobile = +controls.userMobile.value;
-		_user.expirationDate = '2020-12-12';
+		_user.expirationDate = this.datepipe.transform(controls.expirationDate.value, 'yyyy-MM-dd');
+		 //'2020-12-12';
 		_user.bloodtype = controls.bloodtype.value;
 		_user.stationId = 1;
 		_user.alergiesCondition = controls.alergiesCondition.value;
@@ -281,10 +340,10 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 * @param withBack: boolean
 	 */
 	addUser(_user: User, withBack: boolean = false) {
-		this.store.dispatch(new UserOnServerCreated({ user: _user }));
+		this.store.dispatch(new UserOnServerCreated({ user: _user, image: this.userimage }));
 		const addSubscription = this.store.pipe(select(selectLastCreatedUserId)).subscribe(newId => {
-			const message = `New user successfully has been added.`;
-			this.layoutUtilsService.showActionNotification(message, MessageType.Create, 5000, true, true);
+			const message = `Nuevo Usuario Agregado.`;
+			this.layoutUtilsService.showActionNotification(message, MessageType.Create, 5000, true, false);
 			if (newId) {
 				if (withBack) {
 					this.goBackWithId();
@@ -333,6 +392,18 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		return result;
 	}
 
+	// image Preview
+	uploadimg(event){
+		debugger;
+		const file = (event.target as HTMLInputElement).files[0];
+		this.userimage = file;
+		const reader = new FileReader();
+		reader.onload=() => {
+			this.imgpreview = reader.result as string;
+		}
+		reader.readAsDataURL(file)
+	}
+
 	/**
 	 * Close Alert
 	 *
@@ -340,5 +411,16 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 */
 	onAlertClose($event) {
 		this.hasFormErrors = false;
+	}
+
+	changeType(typeuser){
+		debugger;
+		console.log(typeuser._value);
+		 if(typeuser._value === 'Rider'){
+		 	this.isMover = false;
+		 }
+		 else{
+			this.isMover = true;
+		 }
 	}
 }

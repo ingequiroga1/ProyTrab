@@ -1,0 +1,41 @@
+<div class="row custom-mt-4rem">
+    <div class="col-md-12">
+        <div class="d-flex flex-column custom-mt-sm-2rem">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-column">
+                        <div>
+                            <div class="custom-text-group d-flex flex-row">
+
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Monto por Asignar</mat-label>
+                                    <input matInput value="10,000" readonly>
+                                    <mat-icon matSuffix matTooltip="Puntos que no han sido asignados a usuarios">help_outline</mat-icon>
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="custom-text-group d-flex">
+                                <mat-form-field>
+                                    <input type="text" placeholder="Busqueda de Usuario" aria-label="Number" matInput [matAutocomplete]="auto">
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option *ngFor="let option of options" [value]="option">
+                                            {{ option }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                                <button mat-raised-button color="primary">Primary</button>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <p>point-management works!</p>
+</div>

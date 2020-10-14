@@ -8,15 +8,15 @@
 
                         <div class="card-body">
                             <div class="custom-profile-image-container mb-4">
-                                <img src="/assets/media/users/default.jpg" />
+                                <img [src]="imgpreview" />
                                 <div class="d-flex align-items-end image-form">
                                     <mat-form-field class="image-form-field">
                                         <mat-label>{{"Tipo De Usuarios" | translate }}*</mat-label>
-                                        <mat-select formControlName="userType" matInput>
-                                            <mat-option value="1">
+                                        <mat-select #typeus formControlName="userType" matInput (selectionChange)="changeType(typeus)">
+                                            <mat-option value="Mover">
                                                 {{"Mover" | translate }}
                                             </mat-option>
-                                            <mat-option value="2">
+                                            <mat-option value="Rider">
                                                 {{"Rider" | translate }}
                                             </mat-option>
 
@@ -30,13 +30,17 @@
                             <div class="d-flex flex-column">
                                 <div>
                                     <mat-form-field class="mat-form-field-fluid">
+                                        <mat-label>{{'Imagen' | translate }}</mat-label>
+                                        <ngx-mat-file-input (change)="uploadimg($event)"></ngx-mat-file-input>
+                                    </mat-form-field>
+                                    <mat-form-field class="mat-form-field-fluid">
                                         <mat-label>{{'Nombre(s)' | translate }}*</mat-label>
                                         <input matInput formControlName="userName" />
                                         <mat-error>Campo
                                             <strong>requerido</strong>
                                         </mat-error>
                                         <mat-hint align="start">Favor de ingresar
-                                            <strong>Email</strong>
+                                            <strong>Nombre de usuario</strong>
                                         </mat-hint>
                                     </mat-form-field>
                                 </div>
@@ -62,7 +66,7 @@
                                 </div>
                                 <div>
                                     <mat-form-field class="mat-form-field-fluid">
-                                        <mat-label>{{'Numero Celular' | translate }}*</mat-label>
+                                        <mat-label>{{'Número Celular' | translate }}*</mat-label>
                                         <input formControlName="userMobile" matInput />
                                     </mat-form-field>
                                 </div>
@@ -78,7 +82,7 @@
                                         </mat-hint>
                                     </mat-form-field>
                                 </div>
-                                <div>
+                                <div *ngIf='isMover'>
                                     <mat-form-field class="mat-form-field-fluid">
                                         <mat-label>{{'Vencimiento Licencia' | translate }}</mat-label>
                                         <input formControlName="expirationDate" [matDatepicker]="picker2" matInput>
@@ -176,7 +180,7 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <label>{{'Estatus' | translate }}</label>
-                                <mat-slide-toggle></mat-slide-toggle>
+                                <mat-slide-toggle formControlName="statusId"></mat-slide-toggle>
                             </div>
                         </div>
                     </div>
@@ -191,22 +195,22 @@
                                     <mat-form-field class="mat-form-field-fluid">
                                         <mat-label>{{"Area" | translate }}*</mat-label>
                                         <mat-select formControlName="userArea" matInput>
-                                            <mat-option value="1">
+                                            <mat-option value="Mercadotecnia">
                                                 Mercadotecnia
                                             </mat-option>
-                                            <mat-option value="2">
+                                            <mat-option value="Operaciones">
                                                 Operaciones
                                             </mat-option>
-                                            <mat-option value="3">
+                                            <mat-option value="TI">
                                                 TI
                                             </mat-option>
-                                            <mat-option value="4">
+                                            <mat-option value="RH">
                                                 RH
                                             </mat-option>
-                                            <mat-option value="5">
+                                            <mat-option value="Comercial">
                                                 Comercial
                                             </mat-option>
-                                            <mat-option value="6">
+                                            <mat-option value="Contabilidad">
                                                 Contabilidad
                                             </mat-option>
                                         </mat-select>
@@ -216,16 +220,16 @@
                                     <mat-form-field class="mat-form-field-fluid">
                                         <mat-label>{{"Puesto" | translate }}*</mat-label>
                                         <mat-select formControlName="userRole" matInput>
-                                            <mat-option value="1">
+                                            <mat-option value="Jefatura">
                                                 Jefatura
                                             </mat-option>
-                                            <mat-option value="2">
+                                            <mat-option value="Coordinador">
                                                 Coordinador
                                             </mat-option>
-                                            <mat-option value="3">
+                                            <mat-option value="Gerencia">
                                                 Gerencia
                                             </mat-option>
-                                            <mat-option value="4">
+                                            <mat-option value="Dirección">
                                                 Dirección
                                             </mat-option>
                                         </mat-select>
@@ -333,8 +337,9 @@
         </div>
 
         <div class="d-flex custom-mt-2rem justify-content-end">
-            <button *ngIf="!permits" (click)="onSumbit(false)" class="btn btn-primary custom-mr-2rem">{{"Guardar" | translate }}</button>&nbsp;&nbsp;
-            <button *ngIf="permits" routerLink="/page3" class="btn btn-primary custom-mr-2rem">{{"Permisos" | translate }}</button>&nbsp;&nbsp;
+
+            <button *ngIf="addpermitions" class="btn btn-primary custom-mr-2rem">{{"Permisos" | translate }}</button>&nbsp;&nbsp;
+            <button *ngIf="!addpermitions" (click)="onSumbit(false)" class="btn btn-primary custom-mr-2rem">{{"Guardar" | translate }}</button>&nbsp;&nbsp;
             <button class="btn btn-outline-primary">{{"Cancelar" | translate}}</button>
         </div>
     </form>

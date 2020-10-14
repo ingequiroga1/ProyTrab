@@ -89,7 +89,7 @@ export class UserEffects {
       mergeMap(({payload}) => {
         debugger;
         this.store.dispatch(this.showActionLoadingDistpatcher);
-        return this.auth.createUser(payload.user).pipe(
+        return this.auth.createUser(payload.user, payload.image).pipe(
           tap(res => {
             this.store.dispatch(new UserCreated({user: res}));
           })

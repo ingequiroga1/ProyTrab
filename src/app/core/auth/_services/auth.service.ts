@@ -7,6 +7,8 @@ import { Role } from '../_models/role.model';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { HttpUtilsService,QueryParamsModel, QueryResultsModel } from '../../_base/crud';
 import { environment } from '../../../../environments/environment';
+import { Base } from '../_models/bases.model';
+import { CustomerModel } from '../../e-commerce/_models/customer.model';
 
 const API_USERS_URL = 'api/users';
 const API_PERMISSION_URL = 'api/permissions';
@@ -23,19 +25,27 @@ export class AuthService {
   //   return this.http.post<User>('http://52.226.100.59/api/Client/login', {email, password});
   // }
 
-  login(email: string, password: string): Observable<User> {
-    return this.http.post<User>('http://52.226.100.59/api/Client/login', {email, password});
+  login(email: string, password: string): Observable<CustomerModel> {
+    // return this.http.post<User>('http://52.226.100.59/api/Client/login', {email, password});
+    return this.http.post<CustomerModel>(environment.serverpath + 'Client/login', {email, password});
   }
 
   getUserByToken(): Observable<User> {
     const userToken = localStorage.getItem(environment.authTokenKey);
-    let httpHeaders = new HttpHeaders();
-    httpHeaders = httpHeaders.set('Authorization', 'Bearer ' + userToken);
+    // let httpHeaders = new HttpHeaders();
+    // httpHeaders = httpHeaders.set('Authorization', 'Bearer ' + userToken);
     // return this.http.get<User>(API_USERS_URL, {headers: httpHeaders});
 
-    return this.http.get<User>('http://52.226.100.59/api/Client/'+userToken);
+    return this.http.get<User>(environment.serverpath + 'Client/'+userToken);
   }
 
+  getBasesById(): Observable<Base[]> {
+    const userToken = localStorage.getItem(environment.authTokenKey);
+    // let httpHeaders = new HttpHeaders();
+    // httpHeaders = httpHeaders.set('Authorization', 'Bearer ' + userToken);
+    // return this.http.get<User>(API_USERS_URL, {headers: httpHeaders});
+    return this.http.get<Base[]>(environment.serverpath + 'Base/client/'+userToken);
+  }
 
 
   register(user: User): Observable<any> {
@@ -66,11 +76,11 @@ export class AuthService {
 
 
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>('http://52.226.100.59/api/User');
+    return this.http.get<User[]>(environment.serverpath + 'User');
   }
 
   getUserById(userId: number): Observable<User> {
-    return this.http.get<User>('http://52.226.100.59/api/User' + `/${userId}`);
+    return this.http.get<User>(environment.serverpath + 'User' + `/${userId}`);
   }
 
 
@@ -89,13 +99,19 @@ export class AuthService {
   }
 
   // CREATE =>  POST: add a new user to the server
-  createUser(user: User): Observable<User> {
-    let httpHeaders = new HttpHeaders();
-    httpHeaders = httpHeaders.set('Content-Type', 'application/json');
+  // createUser(user: User): Observable<User> {
+  //   let httpHeaders = new HttpHeaders();
+  //   httpHeaders = httpHeaders.set('Content-Type', 'application/json');
+  //   debugger;
+  //   return this.http.post<User>(environment.serverpath + 'User', user, {headers: httpHeaders});
+  // }
+  createUser(user: User, image: File): Observable<User> {
+    const formData = new FormData();
+    formData.append('Userdatastring',JSON.stringify(user));
+    formData.append('file',image,image.name);
     debugger;
-    return this.http.post<User>('http://52.226.100.59/api/User', user, {headers: httpHeaders});
+    return this.http.post<User>('http://localhost:60026/api/User', formData);
   }
-
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
   // findUsers(queryParams: QueryParamsModel): Observable<QueryResultsModel> {

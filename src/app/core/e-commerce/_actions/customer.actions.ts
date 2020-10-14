@@ -17,7 +17,8 @@ export enum CustomerActionTypes {
   CustomersPageLoaded = '[Customers API] Customers Page Loaded',
   CustomersPageCancelled = '[Customers API] Customers Page Cancelled',
   CustomersPageToggleLoading = '[Customers] Customers Page Toggle Loading',
-  CustomerActionToggleLoading = '[Customers] Customers Action Toggle Loading'
+  CustomerActionToggleLoading = '[Customers] Customers Action Toggle Loading',
+  CustomerChangePassword = '[Customers] Customers Action Change Password'
 }
 
 export class CustomerOnServerCreated implements Action {
@@ -99,6 +100,12 @@ export class CustomerActionToggleLoading implements Action {
   }
 }
 
+export class CustomerChangePassword implements Action {
+  readonly type = CustomerActionTypes.CustomerChangePassword;
+  constructor(public payload:{ idcust: number, pass: string}){
+  }
+}
+
 export type CustomerActions = CustomerOnServerCreated
 | CustomerCreated
 | CustomerUpdated
@@ -109,4 +116,5 @@ export type CustomerActions = CustomerOnServerCreated
 | CustomersPageLoaded
 | CustomersPageCancelled
 | CustomersPageToggleLoading
-| CustomerActionToggleLoading;
+| CustomerActionToggleLoading
+| CustomerChangePassword;

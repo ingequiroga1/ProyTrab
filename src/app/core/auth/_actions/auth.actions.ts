@@ -1,17 +1,19 @@
 import { Action } from '@ngrx/store';
 import { User } from '../_models/user.model';
+import { Base } from '../_models/bases.model';
 
 export enum AuthActionTypes {
     Login = '[Login] Action',
     Logout = '[Logout] Action',
     Register = '[Register] Action',
     UserRequested = '[Request User] Action',
-    UserLoaded = '[Load User] Auth API'
+    UserLoaded = '[Load User] Auth API',
+    BasesRequested = '[Request Bases] Action',
+    UserBasesLoaded = '[Load UserBases] Action'
 }
 
 export class Login implements Action {
     readonly type = AuthActionTypes.Login;
-    //constructor(public payload: { authToken: string }) { }
     constructor(public payload: { authToken: string }) { }
 }
 
@@ -34,4 +36,16 @@ export class UserLoaded implements Action {
     constructor(public payload: { user: User }) { }
 }
 
-export type AuthActions = Login | Logout | Register | UserRequested | UserLoaded;
+export class UserBasesLoaded implements Action {
+    debugger;
+    readonly type = AuthActionTypes.UserBasesLoaded;
+    constructor(public payload: { bases: Base[] }) { }
+}
+
+export class BasesRequested implements Action {
+    readonly type = AuthActionTypes.BasesRequested;
+}
+
+
+
+export type AuthActions = Login | Logout | Register | UserRequested | UserLoaded | UserBasesLoaded | UserLoaded;

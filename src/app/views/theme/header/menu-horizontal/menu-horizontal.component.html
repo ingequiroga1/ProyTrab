@@ -1,11 +1,47 @@
 <!--begin::Header Menu Wrapper-->
 <div #headerMenuOffcanvas class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
-    <div class="d-flex align-items-center" style="width:500px">
-        <i class="fa fa-search"></i> &nbsp;
-        <mat-form-field class="mat-form-field-fluid">
-            <mat-label>Buscar...</mat-label>
-            <input type matInput />
-        </mat-form-field>
+    <div class="col">
+        <div ngbDropdown (openChange)="openChange()" autoClose="outside" class="d-inline-block">
+            <div ngbDropdownToggle class="topbar-item" data-toggle="dropdown" data-offset="10px,0px">
+                <div class="btn btn-icon btn-clean btn-lg mr-1">
+                    <ng-container>
+                        <span class="svg-icon svg-icon-xl svg-icon-primary" [inlineSVG]="'./assets/media/svg/icons/General/Search.svg'"></span>
+                    </ng-container>
+                    <ng-container>
+                        <span class="topbar-label" [ngClass]="type ? 'kt-header__topbar-icon--'+ type : ''">
+                      <i [ngClass]="'./assets/media/svg/icons/General/Search.svg'"></i>
+                  </span>
+                    </ng-container>
+                </div>
+            </div>
+            <div ngbDropdownMenu class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg">
+                <div class="quick-search quick-search-dropdown" [ngClass]="{'quick-search-has-result': data?.length}" id="kt_quick_search_dropdown">
+                    <!--begin:Form-->
+                    <form method="get" class="quick-search-form">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                      <span class="svg-icon svg-icon-lg" [inlineSVG]="'./assets/media/svg/icons/General/Search.svg'"></span>
+                                </span>
+                            </div>
+                            <input #searchInput (keyup)="search($event)" type="text" class="form-control" placeholder="Buscar..." />
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                      <i
+                        (click)="clear($event)"
+                        class="quick-search-close ki ki-close icon-sm text-muted"
+                        [style.display]="showCloseButton()? 'block': 'none'"
+                        ></i>
+                      </span>
+                            </div>
+                        </div>
+                    </form>
+                    <!--end::Form-->
+
+                    <kt-search-result [data]="data"></kt-search-result>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <!--end::Header Menu Wrapper-->

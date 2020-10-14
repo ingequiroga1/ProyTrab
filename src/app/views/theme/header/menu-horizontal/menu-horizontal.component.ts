@@ -26,6 +26,42 @@ import {
 // HTML Class
 import { HtmlClassService } from '../../html-class.service';
 
+
+const menus = {
+  title: 'Menus',
+  type: 2,
+  items: [
+    {
+      iconClasses: 'flaticon-interface-7 text-primary',
+      title: 'Community Info',
+      description: 'Community Info'
+    },
+    {
+      iconClasses: 'flaticon-buildings text-warning',
+      title: 'Inicio',
+      description: 'Pantalla principal movenco'
+    },
+    {
+      iconClasses: 'flaticon-coins text-info',
+      title: 'Administración y Finanzas',
+      description: 'Administración y Finanzas'
+    },
+    {
+      iconClasses: 'flaticon-truck text-warning',
+      title: 'Movilidad',
+      description: 'Movilidad'
+    }
+  ]
+};
+
+const respObj = {
+  title: '',
+  type: 0,
+  items: []
+};
+
+
+
 @Component({
   selector: 'kt-menu-horizontal',
   templateUrl: './menu-horizontal.component.html',
@@ -33,16 +69,24 @@ import { HtmlClassService } from '../../html-class.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuHorizontalComponent implements OnInit, AfterViewInit {
+  @ViewChild('searchInput', {static: true}) searchInput: ElementRef;
+  data: any[] = null;
+  loading: boolean;
+
   private offcanvas: any;
   @ViewChild('headerMenuOffcanvas', { static: true }) headerMenuOffcanvas: ElementRef;
 
   @Input() headerLogo: string;
   @Input() headerMenuSelfDisplay: boolean;
   @Input() headerMenuClasses: string;
+
+  @Input() type: 'brand' | 'success' | 'warning' = 'success';
   // Public properties
   currentRouteUrl: any = '';
   asideSelfDisplay = '';
   rootArrowEnabled: boolean;
+
+ 
 
   menuOptions: MenuOptions = {
     submenu: {
@@ -266,4 +310,66 @@ export class MenuHorizontalComponent implements OnInit, AfterViewInit {
       this.offcanvas.hide(); // Hide offcanvas after general link click
     }
   }
+
+  search(e) {
+    this.data = null;
+    if (e.target.value.length > 1) {
+      this.loading = true;
+      // simulate getting search result
+      setTimeout(() => {
+        // Uncomment this. Right now it's just mock
+         this.data = this.searchInData(e.target.value);
+        // this.data = [menus];
+        this.loading = false;
+        this.cdr.markForCheck();
+      }, 500);
+    }
+  }
+
+  /**
+   * Clear search
+   *
+   * @param e: Event
+   */
+  clear(e) {
+    this.data = null;
+    this.searchInput.nativeElement.value = '';
+  }
+
+  openChange() {
+    setTimeout(() => this.searchInput.nativeElement.focus());
+  }
+
+  showCloseButton() {
+    return this.data && this.data.length && !this.loading;
+  }
+
+  searchInData(searchText: string): any {
+    debugger;
+    searchText = searchText.toLowerCase().trim();
+    const result = [];
+    const menusResult = this.searchInContainer(searchText, menus, respObj);
+    if (menusResult) {
+      result.push(menusResult);
+    }
+    return result;
+  }
+
+  searchInContainer(searchText, source, respObj) {
+    const items = source.items.filter(
+      el =>
+        el.title.toLowerCase().indexOf(searchText) > -1 ||
+        el.description.toLowerCase().indexOf(searchText) > -1
+    );
+    if (items.length === 0) {
+      return undefined; // No results
+    }
+    respObj.title = source.title;
+    respObj.type = source.type;
+    respObj.items =items.slice();
+    return respObj;
+    // return Object.assign({items}, respObj);
+  }
+
+
 }

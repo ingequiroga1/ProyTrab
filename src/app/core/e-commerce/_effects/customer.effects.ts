@@ -6,7 +6,7 @@ import {Injectable} from '@angular/core';
 import {map, mergeMap, tap} from 'rxjs/operators';
 // NGRX
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {Store} from '@ngrx/store';
+import { Store, Action } from '@ngrx/store';
 // CRUD
 import {QueryResultsModel} from '../../_base/crud';
 // Services
@@ -15,6 +15,7 @@ import {CustomersService} from '../_services/';
 // State
 import {AppState} from '../../../core/reducers';
 import { AuthService } from '../../auth/_services/auth.service';
+import { CustomerChangePassword } from '../_actions/customer.actions';
 // Actions
 import {
   CustomerActionToggleLoading,
@@ -129,6 +130,22 @@ export class CustomerEffects {
         return this.hideActionLoadingDistpatcher;
       }),
     );
+
+    @Effect()
+    changePassword$ = this.actions$
+      .pipe(
+        ofType<CustomerChangePassword>(CustomerActionTypes.CustomerChangePassword),
+        mergeMap(({payload}) => {
+          return this.customersService.changePass(payload.idcust, payload.pass).pipe(
+            tap(res => {
+                  console.log('Se cambio la contraseña correctamente');
+            })
+          );
+        }),
+        map(() => {
+          return this.hideActionLoadingDistpatcher;
+        }),
+      );
 
   constructor(private actions$: Actions, private customersService: CustomersService, private store: Store<AppState>,
     private authservice: AuthService) {

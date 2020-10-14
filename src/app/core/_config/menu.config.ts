@@ -403,10 +403,42 @@ export class MenuConfig {
           bullet: "dot",
           icon: "flaticon-coins",
           submenu: [
-            // {
-            //   title: "Operador de Flota",
-            //   page: "" ,
-            // }
+             {
+               title: 'Asignación de Puntos',
+               page: '/point-management' ,
+             },
+             {
+              title: 'Wallet',
+              page: '#' ,
+            },
+            {
+              title: "Facturación",
+              page: "#" ,
+            },
+            {
+              title: "Asignación Vehículos a la base ",
+              page: "#" ,
+            },
+            {
+              title: "Seguros",
+              page: "#" ,
+            },
+            {
+              title: "Gasolina",
+              page: "#" ,
+            },
+            {
+              title: "Recompensas",
+              page: "#" ,
+            },
+            {
+              title: "Infracciones Movenco",
+              page: "#" ,
+            },
+            {
+              title: "Uso de Puntos",
+              page: "#" ,
+            },
           ],
         },
         {

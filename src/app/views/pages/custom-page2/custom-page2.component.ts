@@ -121,4 +121,8 @@ export class CustomPage2Component implements OnInit,AfterViewChecked {
     this.toolbarService.emit({ parent:{name: 'Community info', url: '/community'}, children:[ {name:'Detalle de  Alta de Usuarios' , url: '/page2'} ]});
   }
 
+  uploading(){
+    console.log('Insertar imagen');
+  }
+
 }

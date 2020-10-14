@@ -66,6 +66,7 @@ export {
     isUserLoaded,
     currentAuthToken,
     currentUser,
+    currentUserBases, //07/10/20
     currentUserRoleIds,
     currentUserPermissionsIds,
     currentUserPermissions,

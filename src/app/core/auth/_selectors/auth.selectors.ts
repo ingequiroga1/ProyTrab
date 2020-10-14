@@ -19,7 +19,11 @@ export const currentAuthToken = createSelector(selectAuthState, auth => auth.aut
 
 export const isUserLoaded = createSelector(selectAuthState, auth => auth.isUserLoaded);
 
+export const isBasesLoaded = createSelector(selectAuthState, auth => auth.isBasesLoaded);
+
 export const currentUser = createSelector(selectAuthState, auth => auth.user);
+
+export const currentUserBases = createSelector(selectAuthState, auth => auth.bases); // 07/10/20
 
 export const currentUserRoleIds = createSelector(
     currentUser,

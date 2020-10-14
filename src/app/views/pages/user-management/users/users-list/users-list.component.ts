@@ -29,6 +29,8 @@ import {
 } from '../../../../../core/auth';
 import { SubheaderService } from '../../../../../core/_base/layout';
 
+import { ToolbarService } from 'src/app/views/services/toolbar.service';
+
 // Table with EDIT item in MODAL
 // ARTICLE for table with sort/filter/paginator
 // https://blog.angular-university.io/angular-material-data-table/
@@ -41,10 +43,21 @@ import { SubheaderService } from '../../../../../core/_base/layout';
 	templateUrl: './users-list.component.html',
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsersListComponent implements OnInit, OnDestroy {
+export class UsersListComponent implements OnInit, OnDestroy,AfterViewChecked {
 	// Table fields
 	dataSource: UsersDataSource;
-	displayedColumns = ['select', 'id', 'username', 'email', 'fullname', '_roles', 'actions'];
+	displayedColumns = [
+		"select",
+		"userId",
+		"Nombre(s)",
+		"Apellido Paterno",
+		"Apellido Materno",
+		"Puesto",
+		"Area",
+		"Tipo de Usuario",
+		"Estatus",
+		"actions"
+	  ];
 	@ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 	@ViewChild('sort1', {static: true}) sort: MatSort;
 	// Filter fields
@@ -54,7 +67,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
 	selection = new SelectionModel<User>(true, []);
 	usersResult: User[] = [];
 	allRoles: Role[] = [];
-
+	filterStatus = '';
+	filterType = '';
 	// Subscriptions
 	private subscriptions: Subscription[] = [];
 
@@ -72,7 +86,14 @@ export class UsersListComponent implements OnInit, OnDestroy {
 		private router: Router,
 		private layoutUtilsService: LayoutUtilsService,
 		private subheaderService: SubheaderService,
-		private cdr: ChangeDetectorRef) {}
+		private cdr: ChangeDetectorRef,
+		private toolbarService:ToolbarService
+		) {
+			this.store.subscribe(
+				state => {
+				  console.log(state);
+				});
+		}
 
 	/**
 	 * @ Lifecycle sequences => https://angular.io/guide/lifecycle-hooks
@@ -82,6 +103,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
 	 * On init
 	 */
 	ngOnInit() {
+		this.paginator._intl.itemsPerPageLabel='Elementos por página';
 		// load roles list
 		const rolesSubscription = this.store.pipe(select(selectAllRoles)).subscribe(res => this.allRoles = res);
 		this.subscriptions.push(rolesSubscription);
@@ -96,6 +118,7 @@ export class UsersListComponent implements OnInit, OnDestroy {
 		**/
 		const paginatorSubscriptions = merge(this.sort.sortChange, this.paginator.page).pipe(
 			tap(() => {
+				debugger;
 				this.loadUsersList();
 			})
 		)
@@ -130,10 +153,14 @@ export class UsersListComponent implements OnInit, OnDestroy {
 		this.subscriptions.push(entitiesSubscription);
 
 		// First Load
-		//of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
+		// of(undefined).pipe(take(1), delay(1000)).subscribe(() => { // Remove this line, just loading imitation
 			this.loadUsersList();
-		//});
+		// });
 	}
+
+	ngAfterViewChecked() {
+		this.toolbarService.emit({ isShowRightToolbar: true, rightToolbarLinks:{ nuevoUrl :'/users/add'} , parent:{name:'Community info',url:'/user-management'}, children:[ {name:'Usuarios', url:'/users/details'}]});
+	  }
 
 	/**
 	 * On Destroy
@@ -164,11 +191,21 @@ export class UsersListComponent implements OnInit, OnDestroy {
 		const filter: any = {};
 		const searchText: string = this.searchInput.nativeElement.value;
 
-		filter.lastName = searchText;
+		if (this.filterStatus && this.filterStatus.length > 0) {
+			filter.statusId = this.filterStatus;
+		}
 
-		filter.username = searchText;
+		if (this.filterType && this.filterType.length > 0) {
+			filter.userTypeId = this.filterType;
+		}
+
+
+
+		filter.userLastname = searchText;
+
+		filter.userName = searchText;
 		filter.email = searchText;
-		filter.fillname = searchText;
+		filter.userLastname = searchText;
 		return filter;
 	}
 

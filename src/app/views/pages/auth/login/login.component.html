@@ -1,68 +1,63 @@
 <div class="d-flex flex-column-fluid flex-center mt-30 mt-lg-0">
-  <!--begin::Signin-->
-  <div class="login-form login-signin">
-    <div class="text-center mb-10 mb-lg-20">
-      <img class="margin-4rem custom-mb-4rem" src="/assets/images/logo.png" />
-      <h1 class="font-size-h3">{{"INICIAR SESIÓN" | translate }} </h1>
-    </div>
-    <!-- 
+    <!--begin::Signin-->
+    <div class="login-form login-signin">
+        <div class="text-center mb-10 mb-lg-20">
+            <img class="margin-4rem custom-mb-4rem" src="/assets/images/logo.png" />
+            <h1 class="font-size-h3">{{"INICIAR SESIÓN" | translate }} </h1>
+        </div>
+        <!-- 
     <kt-auth-notice></kt-auth-notice> -->
 
-    <!--begin::Form-->
-    <form class="form" [formGroup]="loginForm" autocomplete="off" novalidate="novalidate" id="kt_login_form">
-      <div class="form-group">
-        <mat-form-field>
-          <mat-label>{{'correo electrónico' | translate }}</mat-label>
-          <input matInput type="email" placeholder="{{ 'AUTH.INPUT.EMAIL' | translate }}" formControlName="email"
-            autocomplete="off" />
-          <mat-error *ngIf="isControlHasError('email', 'required')">
-            <strong>{{ "AUTH.VALIDATION.REQUIRED_FIELD" | translate }}</strong>
-          </mat-error>
-          <mat-error *ngIf="isControlHasError('email', 'email')">
-            <strong>{{ "AUTH.VALIDATION.INVALID_FIELD" | translate }}</strong>
-          </mat-error>
-          <mat-error *ngIf="isControlHasError('email', 'minlength')">
-            <strong>{{ "AUTH.VALIDATION.MIN_LENGTH_FIELD" | translate }} 3</strong>
-          </mat-error>
-          <mat-error *ngIf="isControlHasError('email', 'maxlength')">
-            <strong>{{ "AUTH.VALIDATION.MAX_LENGTH_FIELD" | translate }} 320</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="form-group">
-        <mat-form-field>
-          <mat-label>{{'Contraeña' | translate }}</mat-label>
-          <input matInput type="password" placeholder="{{ 'AUTH.INPUT.PASSWORD' | translate }}"
-            formControlName="password" autocomplete="off" />
-          <mat-error *ngIf="isControlHasError('password', 'required')">
-            <strong>{{ "AUTH.VALIDATION.REQUIRED_FIELD" | translate }}</strong>
-          </mat-error>
-          <mat-error *ngIf="isControlHasError('password', 'minlength')">
-            <strong>{{ "AUTH.VALIDATION.MIN_LENGTH_FIELD" | translate }} 3</strong>
-          </mat-error>
-          <mat-error *ngIf="isControlHasError('password', 'maxlength')">
-            <strong>{{ "AUTH.VALIDATION.MAX_LENGTH_FIELD" | translate }} 100</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <!--begin::Action-->
-      <div class="form-group d-flex flex-wrap justify-content-between align-items-center">
-        <span href="javascript:;" routerLink="/auth/forgot-password" class="text-dark-50 text-hover-primary my-3 mr-2"
-          id="kt_login_forgot"><input type="checkbox" />&nbsp;{{"Recordarme" | translate }}</span>
-        
-        <span   (click)="openDialog()" style="cursor:pointer" class="text-dark-50 text-hover-primary my-3 mr-2"
-          id="kt_login_forgot">{{ "	¿Olvidaste tu contraeña?" | translate }}</span>
-      </div>
-      <!--end::Action-->
-      <div class="text-align-center d-flex custom-mt-5rem">
-        <button id="kt_login_signin_submit" (click)="submit()" [ngClass]="{
-          'spinner spinner-right spinner-md spinner-light': loading
-        }"
-          class="btn btn-primary font-weight-bold px-9 py-4 my-3 m-auto custom-btn-grow-0_4">{{ "Inicar Sesión" | translate }}</button>
-      </div>
+        <!--begin::Form-->
+        <form class="form" [formGroup]="loginForm" autocomplete="off" novalidate="novalidate" id="kt_login_form">
+            <div class="form-group">
+                <mat-form-field>
+                    <mat-label>{{'Correo Electrónico' | translate }}</mat-label>
+                    <input matInput type="email" placeholder="{{ 'AUTH.INPUT.EMAIL' | translate }}" formControlName="email" autocomplete="off" />
+                    <mat-error *ngIf="isControlHasError('email', 'required')">
+                        <strong>{{ "AUTH.VALIDATION.REQUIRED_FIELD" | translate }}</strong>
+                    </mat-error>
+                    <mat-error *ngIf="isControlHasError('email', 'email')">
+                        <strong>{{ "AUTH.VALIDATION.INVALID_FIELD" | translate }}</strong>
+                    </mat-error>
+                    <mat-error *ngIf="isControlHasError('email', 'minlength')">
+                        <strong>{{ "AUTH.VALIDATION.MIN_LENGTH_FIELD" | translate }} 3</strong>
+                    </mat-error>
+                    <mat-error *ngIf="isControlHasError('email', 'maxlength')">
+                        <strong>{{ "AUTH.VALIDATION.MAX_LENGTH_FIELD" | translate }} 320</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="form-group">
+                <mat-form-field>
+                    <mat-label>{{'Contraseña' | translate }}</mat-label>
+                    <input matInput type="password" placeholder="{{ 'AUTH.INPUT.PASSWORD' | translate }}" formControlName="password" autocomplete="off" />
+                    <mat-error *ngIf="isControlHasError('password', 'required')">
+                        <strong>{{ "AUTH.VALIDATION.REQUIRED_FIELD" | translate }}</strong>
+                    </mat-error>
+                    <mat-error *ngIf="isControlHasError('password', 'minlength')">
+                        <strong>{{ "AUTH.VALIDATION.MIN_LENGTH_FIELD" | translate }} 3</strong>
+                    </mat-error>
+                    <mat-error *ngIf="isControlHasError('password', 'maxlength')">
+                        <strong>{{ "AUTH.VALIDATION.MAX_LENGTH_FIELD" | translate }} 100</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <!--begin::Action-->
+            <div class="form-group d-flex flex-wrap justify-content-between align-items-center">
+                <span href="javascript:;" routerLink="/auth/forgot-password" class="text-dark-50 text-hover-primary my-3 mr-2" id="kt_login_forgot"><input type="checkbox" />&nbsp;{{"Recordarme" | translate }}</span>
 
-    </form>
-    <!--end::Form-->
-  </div>
-  <!--end::Signin-->
+                <span style="cursor:pointer" class="text-dark-50 text-hover-primary my-3 mr-2" id="kt_login_forgot">{{ "	¿Olvidaste tu contraseña?" | translate }}</span>
+            </div>
+            <!--end::Action-->
+            <div class="text-align-center d-flex custom-mt-5rem">
+                <button id="kt_login_signin_submit" (click)="submit()" [ngClass]="{
+          'spinner spinner-right spinner-md spinner-light': loading
+        }" class="btn btn-primary font-weight-bold px-9 py-4 my-3 m-auto custom-btn-grow-0_4">{{ "Iniciar Sesión" | translate }}</button>
+            </div>
+
+        </form>
+        <!--end::Form-->
+    </div>
+    <!--end::Signin-->
 </div>

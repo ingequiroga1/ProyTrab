@@ -129,7 +129,7 @@ export class CustomPage1Component implements OnInit, AfterViewChecked {
 			return;
 		}
 
-    this.store.dispatch(new UserOnServerCreated ({ user: this.usermovenco}));
+    //this.store.dispatch(new UserOnServerCreated ({ user: this.usermovenco}));
     this.userDetail(17);
   }
 
@@ -157,5 +157,7 @@ export class CustomPage1Component implements OnInit, AfterViewChecked {
   ngAfterViewChecked() {
     this.toolbarService.emit({ parent:{name:'Community info',url:'/community'}, children:[ {name:'Alta de Usuarios', url:'/page1'}]});
   }
+
+
 
 }
