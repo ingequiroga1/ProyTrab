@@ -50,7 +50,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	imgpreview = '/assets/media/users/default.jpg';
 	userimage: File;
 	addpermitions = false;
-	allBases: Base[] = [];
 
 	isMover= true; // 08/10/2020
 
@@ -120,10 +119,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			}
 		});
 		this.subscriptions.push(routeSubscription);
-
-		const basesSubscription = this.store.pipe(select(currentUserBases)).subscribe(res => this.allBases = res);
-		this.subscriptions.push(basesSubscription);
-		console.log(this.allBases[0].name);
 	}
 
 	ngOnDestroy() {
@@ -354,8 +349,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 * @param withBack: boolean
 	 */
 	addUser(_user: User, withBack: boolean = false) {
-		// this.store.dispatch(new UserOnServerCreated({ user: _user, image: this.userimage }));
-		this.store.dispatch(new UserOnServerCreated({ user: _user }));
+		 this.store.dispatch(new UserOnServerCreated({ user: _user, image: this.userimage }));
+		// this.store.dispatch(new UserOnServerCreated({ user: _user, this.userimage }));
 		const addSubscription = this.store.pipe(select(selectLastCreatedUserId)).subscribe(newId => {
 			const message = `Nuevo Usuario Agregado.`;
 			this.layoutUtilsService.showActionNotification(message, MessageType.Create, 5000, true, false);

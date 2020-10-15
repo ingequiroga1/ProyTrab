@@ -340,7 +340,7 @@
 
         <div class="d-flex custom-mt-2rem justify-content-end">
 
-            <button *ngIf="addpermitions" class="btn btn-primary custom-mr-2rem">{{"Permisos" | translate }}</button>&nbsp;&nbsp;
+            <button routerLink="/page3" *ngIf="addpermitions" class="btn btn-primary custom-mr-2rem">{{"Permisos" | translate }}</button>&nbsp;&nbsp;
             <button *ngIf="!addpermitions" (click)="onSumbit(false)" class="btn btn-primary custom-mr-2rem">{{"Guardar" | translate }}</button>&nbsp;&nbsp;
             <button class="btn btn-outline-primary">{{"Cancelar" | translate}}</button>
         </div>

@@ -99,21 +99,20 @@ export class AuthService {
   }
 
   // CREATE =>  POST: add a new user to the server
-  createUser(user: User): Observable<User> {
-    let httpHeaders = new HttpHeaders();
-    httpHeaders = httpHeaders.set('Content-Type', 'application/json');
-    debugger;
-    return this.http.post<User>(environment.serverpath + 'User', user, {headers: httpHeaders});
-  }
-
-  // createUser(user: User, image: File): Observable<User> {
-  //   const formData = new FormData();
-  //   formData.append('Userdatastring',JSON.stringify(user));
-  //   formData.append('file',image,image.name);
+  // createUser(user: User): Observable<User> {
+  //   let httpHeaders = new HttpHeaders();
+  //   httpHeaders = httpHeaders.set('Content-Type', 'application/json');
   //   debugger;
-  //   return this.http.post<User>('http://localhost:60026/api/User', formData);
+  //   return this.http.post<User>(environment.serverpath + 'User', user, {headers: httpHeaders});
   // }
-  
+
+  createUser(user: User, image: File): Observable<User> {
+    const formData = new FormData();
+    formData.append('Userdatastring',JSON.stringify(user));
+    formData.append('file',image,image.name);
+    debugger;
+    return this.http.post<User>(environment.serverpath + 'User', formData);
+  }
   // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
   // items => filtered/sorted result
   // findUsers(queryParams: QueryParamsModel): Observable<QueryResultsModel> {

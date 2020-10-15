@@ -48,12 +48,12 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-wrap flex-column">
-                            <mat-checkbox class="mb-4" value="1">
+                            <mat-checkbox class="mb-4" value="1" (change)="addPermition($event)">
                                 <span style="white-space: break-spaces;">
                                     {{"Compartir Saldo Movenco con User" | translate }}
                                 </span>
                             </mat-checkbox>
-                            <mat-checkbox value="2">
+                            <mat-checkbox value="2" (change)="addPermition($event)">
                                 <span style="white-space: break-spaces;">
                                     {{"Agregar User" | translate }}
                                 </span>
@@ -76,22 +76,10 @@
                 </h3>
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex flex-wrap flex-column">
-                            <mat-checkbox class="mb-4" value="1">
+                        <div *ngFor="let base of allBases" class="d-flex flex-wrap flex-column">
+                            <mat-checkbox class="mb-4" value="{{base.baseId}}" (change)="addPermition(base)">
                                 <span style="white-space: break-spaces;">
-                                    {{"HDI Norte" | translate }}
-                                </span>
-                            </mat-checkbox>
-
-                            <mat-checkbox class="mb-4" value="2">
-                                <span style="white-space: break-spaces;">
-                                    {{"HDI Campestre" | translate }}
-                                    </span>
-                            </mat-checkbox>
-
-                            <mat-checkbox class="mb-4" value="3">
-                                <span style="white-space: break-spaces;">
-                                    {{"HDI Norte" | translate }}
+                                   {{base.name}}
                                 </span>
                             </mat-checkbox>
                         </div>
@@ -104,11 +92,11 @@
 
 
 
-
+        </div>
+        <div class="ml-auto align-self-end d-flex justify-self-end custom-mt-2rem justify-content-end">
+            <button class="btn btn-primary custom-mr-2rem">{{"Guardar" | translate }}</button>&nbsp;&nbsp;
+            <button class="btn btn-outline-primary">{{"Cancelar" | translate }}</button>
         </div>
     </div>
-    <div class="ml-auto align-self-end d-flex justify-self-end custom-mt-2rem justify-content-end">
-        <button class="btn btn-primary">{{"Guardar" | translate }}</button>&nbsp;&nbsp;
-        <button class="btn btn-outline-primary">{{"Cancelar" | translate }}</button>
-    </div>
+
 </section>
