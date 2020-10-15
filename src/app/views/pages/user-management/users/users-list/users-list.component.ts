@@ -88,12 +88,7 @@ export class UsersListComponent implements OnInit, OnDestroy,AfterViewChecked {
 		private subheaderService: SubheaderService,
 		private cdr: ChangeDetectorRef,
 		private toolbarService:ToolbarService
-		) {
-			this.store.subscribe(
-				state => {
-				  console.log(state);
-				});
-		}
+		) {	}
 
 	/**
 	 * @ Lifecycle sequences => https://angular.io/guide/lifecycle-hooks

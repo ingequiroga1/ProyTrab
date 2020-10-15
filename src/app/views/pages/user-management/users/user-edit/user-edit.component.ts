@@ -15,13 +15,16 @@ import { LayoutUtilsService, MessageType } from '../../../../../core/_base/crud'
 //Pipes
 import { DatePipe } from '@angular/common'
 
+import { ToolbarService } from '../../../../services/toolbar.service';
+import { Base } from '../../../../../core/auth/_models/bases.model';
+
 // Services and Models
 import {
 	User,
 	UserUpdated,
 	Address,
 	SocialNetworks,
-	selectHasUsersInStore,
+	currentUserBases,
 	selectUserById,
 	UserOnServerCreated,
 	selectLastCreatedUserId,
@@ -47,6 +50,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	imgpreview = '/assets/media/users/default.jpg';
 	userimage: File;
 	addpermitions = false;
+	allBases: Base[] = [];
 
 	isMover= true; // 08/10/2020
 
@@ -73,7 +77,13 @@ export class UserEditComponent implements OnInit, OnDestroy {
 		           private layoutUtilsService: LayoutUtilsService,
 		           private store: Store<AppState>,
 				   private layoutConfigService: LayoutConfigService,
-				   private datepipe: DatePipe) { }
+				   private datepipe: DatePipe,
+				   private toolbarService:ToolbarService) {
+					this.store.subscribe(
+						state => {
+						  console.log(state);
+						});
+				    }
 
 	/**
 	 * @ Lifecycle sequences => https://angular.io/guide/lifecycle-hooks
@@ -110,6 +120,10 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			}
 		});
 		this.subscriptions.push(routeSubscription);
+
+		const basesSubscription = this.store.pipe(select(currentUserBases)).subscribe(res => this.allBases = res);
+		this.subscriptions.push(basesSubscription);
+		console.log(this.allBases[0].name);
 	}
 
 	ngOnDestroy() {
@@ -340,7 +354,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	 * @param withBack: boolean
 	 */
 	addUser(_user: User, withBack: boolean = false) {
-		this.store.dispatch(new UserOnServerCreated({ user: _user, image: this.userimage }));
+		// this.store.dispatch(new UserOnServerCreated({ user: _user, image: this.userimage }));
+		this.store.dispatch(new UserOnServerCreated({ user: _user }));
 		const addSubscription = this.store.pipe(select(selectLastCreatedUserId)).subscribe(newId => {
 			const message = `Nuevo Usuario Agregado.`;
 			this.layoutUtilsService.showActionNotification(message, MessageType.Create, 5000, true, false);
@@ -414,8 +429,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	}
 
 	changeType(typeuser){
-		debugger;
-		console.log(typeuser._value);
 		 if(typeuser._value === 'Rider'){
 		 	this.isMover = false;
 		 }
@@ -423,4 +436,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			this.isMover = true;
 		 }
 	}
+
+	ngAfterViewChecked() {
+		this.toolbarService.emit({ parent:{name:'Community info',url:'/community'}, children:[ {name:'Alta de Usuarios', url:'/users/add'}]});
+	  }
 }
