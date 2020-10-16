@@ -16,9 +16,9 @@ import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { LayoutUtilsService, MessageType } from '../../../../core/_base/crud/utils/layout-utils.service';
 import { CustomerChangePassword } from '../../../../core/e-commerce/_actions/customer.actions';
 import { calendarFormat } from 'moment';
-/**
- * ! Just example => Should be removed in development
- */
+
+import { CookieService } from 'ngx-cookie';
+
 const DEMO_PARAMS = {
 	EMAIL: 'admin@demo.com',
 	PASSWORD: 'demo'
@@ -40,6 +40,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 	loading = false;
 	isLoggedIn$: Observable<boolean>;
 	errors: any = [];
+
+	rememberme = false;
 
 	newpass: string;
 	confirmpass: string;
@@ -72,7 +74,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 		private cdr: ChangeDetectorRef,
 		private route: ActivatedRoute,
 		public dialog: MatDialog,
-		private layoutUtilsService: LayoutUtilsService
+		private layoutUtilsService: LayoutUtilsService,
+		private cookieService: CookieService
 	) {
 		this.unsubscribe = new Subject();
 	}
@@ -143,6 +146,17 @@ export class LoginComponent implements OnInit, OnDestroy {
 	 * Default params, validators
 	 */
 	initLoginForm() {
+
+		debugger;
+		if(this.cookieService.get('remember')!==undefined){
+			if(this.cookieService.get('remember')==='Yes'){
+				DEMO_PARAMS.EMAIL = this.cookieService.get('username');
+				DEMO_PARAMS.PASSWORD = this.cookieService.get('password');
+				// DEMO_PARAMS.remember = true;
+				this.rememberme = true;
+			}
+		}
+
 		// demo message to show
 		if (!this.authNoticeService.onNoticeChanged$.getValue()) {
 			const initialNotice = `Use account
@@ -193,6 +207,15 @@ export class LoginComponent implements OnInit, OnDestroy {
 				tap(user => {
 					if (user) {
 						debugger;
+						if(!this.rememberme){
+							this.cookieService.put('remember','Yes');
+							this.cookieService.put('username',authData.email);
+							this.cookieService.put('password',authData.password);
+						}else{
+								this.cookieService.put('remember','No');
+								this.cookieService.put('username','');
+								this.cookieService.put('password','');
+						}
 						if(!user.changePassword){
 							this.openDialog(user.clientId);
 						}

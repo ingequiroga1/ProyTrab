@@ -1,18 +1,22 @@
 <ng-container *ngIf="customer$ | async as _customer">
     <div class="topbar-item" data-placement="bottom" ngbTooltip="Quick user info">
         <div class="btn btn-icon w-auto btn-clean d-flex align-items-center btn-lg px-5" id="kt_quick_user_toggle">
-            <ng-container *ngIf="greeting">
-                <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hi,</span>
-            </ng-container>
-            <span class="text-dark-50 font-weight-bolder font-size-base d-none  d-md-inline mr-5">
-          {{_customer.name}}
-        </span>
-
-            <span class="symbol symbol-35 symbol-light-success">
+            <!-- <ng-container *ngIf="greeting">
+                <span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Hola,</span>
+            </ng-container> -->
+            <!-- <span class="symbol symbol-35 symbol-light-success">
 					<span class="symbol-label font-size-h5 font-weight-bold">
 						{{_customer.name | firstLetter}}
 					</span>
+            </span> -->
+            <div>
+                <img class="h-25px w-25px rounded" src="../../../../../../assets/images/logo.png" alt="language" />
+            </div>
+            <span class="text-dark-50 font-weight-bolder font-size-base d-none  d-md-inline mr-5">
+            {{_customer.name}}
             </span>
+
+
         </div>
     </div>
 </ng-container>

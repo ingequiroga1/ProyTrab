@@ -27,6 +27,7 @@ import { AuthNoticeComponent } from './auth-notice/auth-notice.component';
 import { AuthEffects, AuthGuard, authReducer, AuthService } from '../../../core/auth';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatIconModule} from '@angular/material/icon';
+import { CookieModule } from 'ngx-cookie';
 const routes: Routes = [
 	{
 		path: '',
@@ -69,7 +70,8 @@ const routes: Routes = [
 		StoreModule.forFeature('auth', authReducer),
 		EffectsModule.forFeature([AuthEffects]),
 		MatDialogModule,
-		MatIconModule
+		MatIconModule,
+		CookieModule.forRoot()
 	],
 	providers: [
 		InterceptService,
