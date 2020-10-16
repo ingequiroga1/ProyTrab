@@ -9,7 +9,8 @@ export enum AuthActionTypes {
     UserRequested = '[Request User] Action',
     UserLoaded = '[Load User] Auth API',
     BasesRequested = '[Request Bases] Action',
-    UserBasesLoaded = '[Load UserBases] Action'
+    UserBasesLoaded = '[Load UserBases] Action',
+    SelectBase = '[Select UserBases] Action',
 }
 
 export class Login implements Action {
@@ -46,6 +47,11 @@ export class BasesRequested implements Action {
     readonly type = AuthActionTypes.BasesRequested;
 }
 
+export class SelectBase implements Action{
+    readonly type = AuthActionTypes.SelectBase;
+    constructor(public payload: {baseId: number}){}
+}
 
 
-export type AuthActions = Login | Logout | Register | UserRequested | UserLoaded | UserBasesLoaded | UserLoaded;
+
+export type AuthActions = Login | Logout | Register | UserRequested | UserLoaded | UserBasesLoaded | UserLoaded | SelectBase;

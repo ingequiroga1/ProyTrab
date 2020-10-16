@@ -11,6 +11,7 @@ export interface AuthState {
   isUserLoaded: boolean;
   isBasesLoaded: boolean;
   bases: Base[];
+  baseSelected: number;
 }
 
 export const initialAuthState: AuthState = {
@@ -19,8 +20,8 @@ export const initialAuthState: AuthState = {
   user: undefined,
   isUserLoaded: false,
   isBasesLoaded: false,
-  bases:[]
- 
+  bases:[],
+  baseSelected: undefined
 };
 
 export function authReducer(state = initialAuthState, action: AuthActions): AuthState {
@@ -33,7 +34,8 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
         user: undefined,
         isUserLoaded: false,
         isBasesLoaded: false,
-        bases: []
+        bases: [],
+        baseSelected: undefined
       };
     }
 
@@ -45,7 +47,8 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
         user: undefined,
         isUserLoaded: false,
         isBasesLoaded: false,
-        bases:[]
+        bases:[],
+        baseSelected: undefined
       };
     }
 
@@ -63,12 +66,19 @@ export function authReducer(state = initialAuthState, action: AuthActions): Auth
     }
 
     case AuthActionTypes.UserBasesLoaded: {
-      debugger;
       const bases: Base[] = action.payload.bases;
       return {
         ...state,
         bases,
         isBasesLoaded: true
+      };
+    }
+
+    case AuthActionTypes.SelectBase: {
+      const baseSelected: number = action.payload.baseId;
+      return{
+        ...state,
+        baseSelected
       };
     }
 

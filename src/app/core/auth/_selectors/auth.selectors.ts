@@ -1,5 +1,5 @@
 // NGRX
-import {createSelector} from '@ngrx/store';
+import {createFeatureSelector,createSelector} from '@ngrx/store';
 // Lodash
 import {each, find, some} from 'lodash';
 // Selectors
@@ -8,6 +8,9 @@ import {selectAllPermissions} from './permission.selectors';
 // Models
 import {Role} from '../_models/role.model';
 import {Permission} from '../_models/permission.model';
+import { Base } from '../_models/bases.model';
+
+export const UserBases = createFeatureSelector<Base[]>('users');
 
 export const selectAuthState = state => state.auth;
 
@@ -24,6 +27,8 @@ export const isBasesLoaded = createSelector(selectAuthState, auth => auth.isBase
 export const currentUser = createSelector(selectAuthState, auth => auth.user);
 
 export const currentUserBases = createSelector(selectAuthState, auth => auth.bases); // 07/10/20
+
+export const currentBaseSelected = createSelector(selectAuthState, auth => auth.baseSelected); // 16/10/20
 
 export const currentUserRoleIds = createSelector(
     currentUser,
@@ -50,6 +55,12 @@ export const checkHasUserPermission = (permissionId: number) => createSelector(
       return ids.some(id => id === permissionId);
     }
 );
+
+export const selectBaseById = (baseId: number) => createSelector(
+  UserBases,
+  basesState => basesState.entries[baseId]
+);
+
 
 export const currentUserPermissions = createSelector(
     currentUserPermissionsIds,

@@ -88,11 +88,11 @@
                 <!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
                 <ng-container matColumnDef="select">
                     <mat-header-cell *matHeaderCellDef class="mat-column-checkbox">
-                        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [color]="'primary'">
+                        <mat-checkbox style="display: none;" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [color]="'primary'">
                         </mat-checkbox>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let row" class="mat-column-checkbox">
-                        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [color]="'primary'">
+                        <mat-checkbox style="display: none;" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)" [color]="'primary'">
                         </mat-checkbox>
                     </mat-cell>
                 </ng-container>

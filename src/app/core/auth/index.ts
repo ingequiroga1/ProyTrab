@@ -70,6 +70,8 @@ export {
     currentUserRoleIds,
     currentUserPermissionsIds,
     currentUserPermissions,
+    currentBaseSelected,
+    selectBaseById,
     checkHasUserPermission
 } from './_selectors/auth.selectors';
 export {

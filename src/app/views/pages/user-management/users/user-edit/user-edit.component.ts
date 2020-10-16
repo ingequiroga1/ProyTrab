@@ -18,18 +18,22 @@ import { DatePipe } from '@angular/common'
 import { ToolbarService } from '../../../../services/toolbar.service';
 import { Base } from '../../../../../core/auth/_models/bases.model';
 
+
 // Services and Models
 import {
 	User,
 	UserUpdated,
 	Address,
 	SocialNetworks,
-	currentUserBases,
+	currentBaseSelected,
 	selectUserById,
 	UserOnServerCreated,
 	selectLastCreatedUserId,
-	selectUsersActionLoading
+	selectUsersActionLoading,
+	selectBaseById
 } from '../../../../../core/auth';
+
+
 
 @Component({
 	selector: 'kt-user-edit',
@@ -52,6 +56,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
 	addpermitions = false;
 
 	isMover= true; // 08/10/2020
+	selectedBase: number;
+	base: Base;
 
 
 
@@ -119,6 +125,14 @@ export class UserEditComponent implements OnInit, OnDestroy {
 			}
 		});
 		this.subscriptions.push(routeSubscription);
+		
+		const basesSubscription = this.store.pipe(select(currentBaseSelected)).subscribe(res => this.selectedBase = res);
+		this.subscriptions.push(basesSubscription);
+
+		const baseSele = this.store.pipe(select(selectBaseById(this.selectedBase))).subscribe(res => this.base = res);
+		this.subscriptions.push(baseSele);
+
+		console.log(this.selectedBase);
 	}
 
 	ngOnDestroy() {
@@ -434,5 +448,14 @@ export class UserEditComponent implements OnInit, OnDestroy {
 
 	ngAfterViewChecked() {
 		this.toolbarService.emit({ parent:{name:'Community info',url:'/community'}, children:[ {name:'Alta de Usuarios', url:'/users/add'}]});
+	  }
+
+	  gopermis(){
+		  debugger;
+		  console.log(this.user);
+		  if(this.user){
+			const url = `/page3/${this.user.userId}`;
+			this.router.navigateByUrl(url, { relativeTo: this.activatedRoute });
+		  }
 	  }
 }

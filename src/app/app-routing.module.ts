@@ -59,7 +59,7 @@ const routes: Routes = [
            ),
       },
       {
-        path: 'page3',
+        path: 'page3/:id',
         loadChildren: () =>
           import('./views/pages/custom-page3/custom-page3.module').then(
             (m) => m.CustomPage3Module
